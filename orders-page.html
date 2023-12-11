@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+    
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> الطلبات  </title>
+    <link rel="stylesheet" href="./css/master.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="./cdn/momentCdn.js"></script>
+</head>
+<body>
+
+
+
+    <div style="overflow: auto;">
+
+        <div class="table-wrapper">
+
+          <table class="fl-table" style="width: 100%;">
+            <thead class="mainClassForSetColor">
+              <tr>
+                  <th>حذف</th>
+                  <th>التاريخ</th>
+                  <th>المحافظة والعنوان</th>
+                  <th>تفاصيل الطلب</th>
+                  <th>الطلب</th>
+                  <th>البريد الالكتروني</th>
+                  <th>رقم هاتف العميل</th>
+                  <th>اسم العميل</th>
+                  <th>رقم الطلب</th>
+                  <th>#</th>
+              </tr>
+            </thead>
+
+            <tbody id="AllOrders" style="text-align: center;">
+
+          
+    
+            </tbody>
+
+          </table>
+
+        </div>
+        
+    </div>
+
+
+    
+</body>
+
+<script src="./cdn/swalCdn.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-database.js"></script>
+
+<script type="module">
+
+
+  /**/
+  import {docName, initializeApp,firebaseConfig, getFirestore,getCountFromServer, collection, query, where, getDocs,getDoc, setDoc, addDoc, doc,deleteDoc,onSnapshot,orderBy, limit,startAt,endAt } from './firebase.js';
+
+  firebase.initializeApp(firebaseConfig);
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const storage = firebase.storage();
+  /**/
+
+  let X;
+
+  async function getCit(db,X) {
+  const citiesCol = collection(db,`${X}`);
+  const citySnapshot = await getDocs(citiesCol);
+  const cityList = citySnapshot.docs.map(doc => doc.data());
+  return cityList;
+  };
+
+
+
+
+/**/
+
+let AllPersonsData=[];
+
+let q = query(collection(db, "Orders"), orderBy("date","desc"), limit(X));
+let querySnapshot = await getDocs(q);
+let cityList = querySnapshot.docs.map(doc => doc.data());
+AllPersonsData=cityList;
+
+showData(AllPersonsData)
+
+async function showData(data){
+
+    console.log("show")
+
+    let i = 0;
+
+    data.forEach(e=>{
+        i++;
+        document.querySelector("#AllOrders").innerHTML+=`
+        
+                <tr data-id="${e.id}" style="font-weight: 600;">
+                    <td class="Order-Editing">
+                                    
+
+                        <a>
+                            <i title="حذف" class="fa-solid fa-trash removeOrder" data-id="${e.id}" style="font-size: 20px; color: white; background: darkred; border-radius: 50%; padding: 6px 8px; cursor: pointer;"></i>
+                        </a>
+
+                                    
+                    </td>
+
+                    <td class="Order-Date">
+                        ${getDiffDate(e.orderDate)}
+                    </td>
+
+                    
+                    <td class="Order-City">${e.city}</td>
+                    <td>
+                        <a>
+                            <i title="تفاصيل الطلب" class="fa-sharp fa-solid fa-circle-info Order-Note" data-id="${e.id}" data-note="${e.note}" style="font-size: 25px; color: #233245; background: white; border-radius: 50%; padding: 5px 5px; cursor: pointer;"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <bdi class="Order-Active">
+                            
+                            ${e.active}
+                            <a style="display: none;">
+                            <i title="سلة المنتجات" class="fa-sharp fa-solid fa-circle-info OrderFromStore" data-id="${e.id}" data-store="[{&quot;productId&quot;:&quot;3345100&quot;,&quot;productName&quot;:&quot;X8 ultra &amp; Earbuds M10 عرض&quot;,&quot;productImage&quot;:&quot;https://firebasestorage.googleapis.com/v0/b/ordersystem-f3088.appspot.com/o/1694963278431-%D8%B9%D8%B1%D8%B6.png?alt=media&amp;token=0ae2fb4c-2139-41d8-b470-1b9ccbcd5e7e&quot;,&quot;productPrice&quot;:950,&quot;productNote&quot;:&quot;الساعة الالترا والسماعه  m10 الأكثر طلباً والأكثر مبيعاً\n\n ⬛المواصفات والمميزات للساعه\n⬅️ مقاس 49مم فعلي\n⬅️فيها 4 مسامير فى ضهر الساعة\n✅فيها اللوك  لقفل الاستيك بتاع الساعة\n✅شحن وايرلس ⚡️\n✅تدعم خاصيه NFC\n✅ البطارية تدوم من ٢ الي ٣ ايام ?\n✅تدعم always on display\n✅يوجد بها ميزة NFC\n✅تدعم المكالمات واشعارات السوشيال ميديا.\n✅تعمل على iPhone‚ Android\n✅تقدر تنزل صورة شخصية كخلفية للساعة.\n✅بها مايك وسبيكر للإتصال والرد على المكالمة?\n✅ تظهر اسم المتصل\n✅تقدر تسمع منها اغاني وتقدر تتحكم فيها\n✅تستقبل الاشعارات السوشيال ميديا\n✅تدعم اللغة العربية والإنجليزية وجميع اللغات\n✅وتتميز بقياس ( ضغط الدم ونبض القلب – خطوات ✅المشي ‚ السعرات الحراية ‚ مراقبة جودة النوم)\n✅الساعة تدعم خاصية الباسورد\n✅حالة الطقس?️\n\n⬛ ومواصفات السماعه\n\nتعمل على هواتف الأندرويد و الأيفون ( تعمل على جميع الأجهزة) و الساعات الذكية.\n\nتعمل باللمس.\n\nأحدث إصدار بلوتوث 5.1 ( لاتأخيربصوت_الألعاب).\n\nيمكن الرد على المكالمات و تغير الأغنية و التحكم بالصوت عن طريق لمسها مباشرة.\n\nمقاومة للماء و التعرق بشكل كامل و الاتربة IP68\n\nثبات عالي بالأذن لتناسب الرياضات.مزودة بمانع الضوضاء الخارجية.\n\nإمكانية استخدامها لشحن الهاتف كـ POWER BANK ب سعة 3000 مل أمبير !!\n\nتقنيه الصوت محيط 9D عالية الجودة مناسبهجداللألعاب.\n\nتصميم Groove الجميل، و يمكن استخدامه كحاملة للهاتف المحمول.\n\nشاشة رقمية ذكية لمعرفه مستوى شحن.\n\nتعمل عن بعد 10 متر الى 20 متر عن الهاتف .مصنوعة من مادتي ABS+PVC لتحقيق أعلى متانة&quot;,&quot;productTotalPrice&quot;:2850,&quot;productAmount&quot;:3},{&quot;productImage&quot;:&quot;https://firebasestorage.googleapis.com/v0/b/ordersystem-f3088.appspot.com/o/1696114821823-1695051106934-%D8%B9%D8%B1%D8%B6%20(2).png.webp?alt=media&amp;token=0730874f-0a1b-43ce-80f1-6b5c8c2a7952&quot;,&quot;productAmount&quot;:1,&quot;productNote&quot;:&quot; توصيل مجاني لحد باب البيت والدفع عند الاستلام\n\nمواصفات الساعة:\n\nفيها معظم ابلكيشن السوشيال ميديا زي الفيس و الواتس و تويتر.\n\n• جودة الشاشة, وده لإن إضاءة الشاشة تحت أشعة الشمس قوية جدًا\n\n• حجم الشاشة: 2.08 بوصة.\n\n• مقاومة الماءIP67.\n\n• تدعم تطبيق WearFit pro.\n\n• متطلبات النظام: Android5.0+ / ios10.0+\n\n• الشريحة الرئيسية: HS6621-PG.\n\n• الذاكرة: 128 ميجابايت،\n\n• اصدار البلوتوث: 5.2،\n\n• سعة البطارية: 300 مللي امبير في الساعة\n\n• الخصوصية, هتقدر تعمل للساعة باسورد علشان تعرف تحافظ على خصوصيتك.\n\n• فيها مايك و ده يسهل عليك ترد على المكالمات حتى لو الموبايل مش جنبك وبيتسجل فيها الأرقام.\n\n• الساعة بتشتغل تاتش و كمان سريع.\n\n• تدعم القياسات الطبية (ضربات القلب – الضغط – الاكسجين ).\n\n• زر Scroll للتنقل والتحكم فى الساعة.\n\n• الساعة بتدعم لغات كتير زي الفرنساوي – الإنجليزي – العربي.\n\n• فيها 3 خلفيات و تقدر تغير شكل الخلفية بصورة ليك من خلال الأبلكيشن.\n\n• سرعه النظام والتنقل بين الخيارات\n\n• متوافر فيها البوصله الي بتتحرك مع الخلفيه\n\nتعمل عن طريق برنامج hryfine للاندرويد والايفون\n\n&quot;,&quot;productTotalPrice&quot;:750,&quot;productId&quot;:&quot;2355864&quot;,&quot;productName&quot;:&quot;X8 ultra&quot;,&quot;productPrice&quot;:750}]" style="font-size: 25px; color: rebeccapurple; background: white; border-radius: 50%; padding: 5px 5px; cursor: pointer;"></i>
+                            </a>
+                            
+                        </bdi>
+                    </td>
+                    <td class="Order-Email">${e.email}</td>
+                    <td class="Order-Phone">${e.phone}</td>
+                    <td>
+                        <bdi class="Order-Name">
+                            ${e.name}
+                        </bdi>
+                    </td>
+                    <td class="Order-Number">${e.orderNumber}</td>
+                    <td class="Order-Id">#${i}</td>
+                </tr>
+        
+        
+        `;
+    });
+
+
+}
+
+
+
+window.onclick=async(e)=>{
+
+
+
+    /* start order detals btn*/
+    if([...e.target.classList].includes("Order-Note")){
+
+    let orderId=e.target.dataset.id;
+    let orderData=AllPersonsData.find(el=>el.id==`${orderId}`);
+    console.log(orderData.orderDate)
+    Swal.fire({
+    html:`
+    <div style="display: flex;justify-content: space-around; font-family: 'cairo'; font-size: 15px;">
+        <h2 style="order: 2; margin: 10px 0;">
+        ${orderData.name}
+        </h2>
+
+        <h2 style="margin: 10px 0;">
+        <span style="font-size: 25px;">${orderData.phone}</span>
+        </h2>
+    </div>
+
+    <hr>
+
+    <h2 style="margin: 5px 0px; font-family: cairo;">
+        <bdi>
+        ${orderData.active}
+        </bdi>
+    </h2>
+
+    <hr>
+
+    <h2 style="margin: 30px 0px; font-family: cairo;">
+        <bdi>
+        ${e.target.dataset.note}
+        </bdi>
+    </h2>
+
+    <hr>
+
+    <p style="color: white;background: var(--main-bg);padding: 10px;border-radius: 10px;font-weight: 400;">
+        ${orderData.orderDate}
+    </p>
+
+    
+    `,
+    showCancelButton: false,
+    showConfirmButton: false,
+    showCloseButton: true
+    });
+    }
+    /* end order detals btn*/
+
+
+
+
+    /* start remove order */
+    if([...e.target.classList].includes("removeOrder")){
+
+
+    Swal.fire({
+    title: 'Are you want to delet it?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+    if (result.isConfirmed) {
+
+        let orderId=e.target.dataset.id;
+
+        let orderDoc=doc(db, "Orders", orderId);
+
+        deleteDoc(orderDoc);
+
+        e.target.parentNode.parentNode.parentNode.remove();
+        AllPersonsData = AllPersonsData.filter(obj => obj.id !== orderId);
+
+        Swal.fire(
+        'Deleted!',
+        'Your order has been deleted.',
+        'success'
+        );
+
+    }
+    })
+
+
+    };
+    /* end remove order */
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* 2 start function to get differnce between data now */
+function getDiffDate(oldDate){
+        
+    var starts = moment(`${oldDate}`);
+    var ends   = moment();
+
+    var duration = moment.duration(ends.diff(starts));
+
+    // with ###moment precise date range plugin###
+    // it will tell you the difference in human terms
+
+    var diff = moment.preciseDiff(starts, ends, true); 
+    // example: { "years": 2, "months": 7, "days": 0, "hours": 6, "minutes": 29, "seconds": 17, "firstDateWasLater":  false }
+
+
+    // or as string:
+    var diffHuman = moment.preciseDiff(starts, ends);
+    // example: 2 years 7 months 6 hours 29 minutes 17 seconds
+
+    let diffDate=diff;
+
+    if(diffDate.years!==0){
+        diffDate={
+            "diffDateNum": diffDate.years,
+            "diffDateName": "سنة",
+        };
+    } else if(diff.months!==0){
+        diffDate={
+            "diffDateNum": diffDate.months,
+            "diffDateName": "شهر",
+        };
+    } else if(diff.days!==0){
+        diffDate={
+            "diffDateNum": diffDate.days,
+            "diffDateName": "يوم",
+        };
+    } else if(diff.hours!==0){
+        diffDate={
+            "diffDateNum": diffDate.hours,
+            "diffDateName": "ساعة",
+        };
+    } else if(diff.minutes!==0){
+        diffDate={
+            "diffDateNum": diffDate.minutes,
+            "diffDateName": "دقيقة",
+        };
+    } else {
+        diffDate={
+            "diffDateNum": 0,
+            "diffDateName": "الان",
+        };
+    }
+
+    let stringDiffDate = `منذ ${diffDate.diffDateNum + " " + diffDate.diffDateName}`;
+    // منذ 1 سنة
+
+    if(diffDate.diffDateName=="الان"){
+      stringDiffDate="الان";
+    }
+    
+    // diffDate => json like {diffDateNum: 1, diffDateName: 'سنة'}
+
+    return stringDiffDate;
+}
+
+// console.log(getDiffDate("2022/1/1 => 5:55 PM"));
+
+/* 2 end function to get differnce between data now */
+
+
+
+
+
+/* 1 start function to get data now */
+function showDate(){
+  
+  const d = new Date();
+  
+  let year = d.getFullYear();
+  let month = d.getMonth();
+  let day = d.getDate();
+  let hour = d.getHours();
+  let mint = d.getMinutes();
+  
+  if(mint<10){
+    mint=`0${mint}`
+  }
+  
+  let dateNow;
+
+  console.log(hour)
+
+  if (hour>=12){
+    
+    dateNow= `
+      ${year}/${month+1}/${day}
+      => ${hour-12}:${mint} PM
+      `;
+
+  } else if (hour<=11){
+    
+      dateNow = `
+      
+      ${year}/${month+1}/${day}
+         ${hour}:${mint} AM
+      
+      `;
+  }
+  return dateNow;
+}
+
+/* 1 end function to get data now */
+
+
+
+
+
+
+
+
+
+
+const colRef= collection(db,"Orders");
+
+
+onSnapshot(colRef,async ()=>{
+
+  let q = query(collection(db, "Orders"), where('date', '>', (AllPersonsData[0]!==undefined)?AllPersonsData[0].date:0), orderBy("date","desc"));
+  let querySnapshot = await getDocs(q);
+  let cityList = querySnapshot.docs.map(doc => doc.data());
+
+  if(cityList.length!==0){
+    (AllPersonsData[0]!==undefined)?AllPersonsData[0].date=cityList[0].date:"";
+    
+    cityList.forEach(ee=>{
+      AllPersonsData.push(ee);
+    });
+    document.querySelector("#AllOrders").innerHTML="";
+    AllPersonsData.sort((a, b) => a.date - b.date).reverse();
+    showData(AllPersonsData);
+
+    // هنا اكتب كود انك تضغط علي زرار الطباعه لاخر تيبل زي ما بتقول
+
+  }
+
+
+});
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</html>

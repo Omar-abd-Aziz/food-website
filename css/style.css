@@ -124,35 +124,3 @@ header * {
 
 
 
-
-  /* Mobile Devices */
-  @media (max-width: 750px) {
-
-
-    #navbar > img{
-      margin: 0 !important;
-    }
-
-
-    nav ul {
-      display: flex;
-      margin-right: 0px;
-    }
-
-    #navbar {
-      flex-direction: column;
-    }
-
-    #navbar img {
-      margin-bottom: 20px;
-    }
-
-    header .content h1 {
-      font-size: 18px;
-    }
-
-    header .content p {
-      font-size: 14px;
-    }
-
-  }

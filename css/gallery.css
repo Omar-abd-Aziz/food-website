@@ -140,12 +140,13 @@ header * {
 
 #gallery .img-gallery {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
 }
 
 #gallery .img-gallery img {
+  border: 2px solid white;
   margin: 20px;
   width: 280px;
   height: 200px;
@@ -168,51 +169,3 @@ header * {
 }
 
 
-
-
-@media (max-width: 1000px) {
-  #navbar img {
-    margin-left: 20px;
-  }
-
-  nav ul {
-    margin-right: 20px;
-  }
-
-  nav ul li a {
-    padding: 10px;
-  }
-
-  header .content h1 {
-    font-size: 28px;
-  }
-
-
-
-
-  @media (max-width: 750px) {
-
-
-    #navbar > img{
-      margin: 0 !important;
-    }
-
-
-    nav ul {
-      display: flex;
-      margin-right: 0px;
-    }
-
-    #navbar {
-      flex-direction: column;
-    }
-
-    #navbar img {
-      margin-bottom: 20px;
-    }
-
-
-
-  }
-
-}

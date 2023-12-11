@@ -185,7 +185,7 @@ header * {
 }
 
 #contact .container {
-  max-width: 900px;
+  max-width: 100%;
 }
 
 #contact .contact-content {
@@ -194,31 +194,31 @@ header * {
   align-items: center;
 }
 
-#contact .contact-info {
-  width: 50%;
+#contact  {
+  width: 100%;
 }
 
-#contact .contact-info div {
+#contact  div {
   margin: 30px 0;
   line-height: 1.7;
 }
 
-#contact .contact-info h3 {
+#contact  h3 {
   font-size: 28px;
   color: #383848;
   margin-bottom: 10px;
 }
 
-#contact .contact-info p {
+#contact  p {
   color: #9a9a9a;
 }
 
-#contact .contact-info p i {
+#contact  p i {
   color: #e4b95b;
   margin-right: 5px;
 }
 
-#contact .contact-info a i {
+#contact  a i {
   color: #fff;
   background: #383848;
   padding: 10px;
@@ -235,15 +235,6 @@ form {
   width: 50%;
 }
 
-form input,
-textarea {
-  display: block;
-  width: 100%;
-  padding: 20px 15px;
-  margin: 20px 0;
-  border: none;
-  background-color: #e3e2dd;
-}
 
 form input:focus,
 textarea:focus {
@@ -254,7 +245,26 @@ form button {
   color: #fff;
 }
 
+
+.addNewOrder{
+  min-width: 100px;
+  font-size: 18px;
+  font-family: cairo;
+  cursor: pointer;
+  width: 120px;
+  margin: 20px;
+  border-radius: 10px;
+  background: #e4b95b;
+  color: white;
+  padding: 5px 0px;
+  font-weight: 600;
+  border: none;
+}
+
 /* Contact Section End */
+
+
+
 /* Footer Start */
 #footer {
   background-color: #383848;
@@ -264,111 +274,3 @@ form button {
   font-size: 14px;
 }
 /* Footer End */
-
-/* Responsiveness */
-/* Medium Screen + Tablet */
-@media (max-width: 1000px) {
-  #navbar img {
-    margin-left: 20px;
-  }
-
-  nav ul {
-    margin-right: 20px;
-  }
-
-  nav ul li a {
-    padding: 10px;
-  }
-
-  header .content h1 {
-    font-size: 28px;
-  }
-
-  #about {
-    height: auto;
-    padding: 4rem 2rem;
-  }
-
-  #about .about-content p {
-    margin-right: 2rem;
-  }
-
-  #about img {
-    width: 250px;
-  }
-
-  #offers .offers-items img {
-    width: 150px;
-  }
-
-  #offers .offers-items h3 {
-    font-size: 18px;
-  }
-
-  #menu .menu-items {
-    display: block;
-  }
-
-  #contact .contact-content {
-    flex-direction: column;
-  }
-
-  /* Mobile Devices */
-  @media (max-width: 600px) {
-    #navbar {
-      flex-direction: column;
-    }
-
-    #navbar img {
-      margin-bottom: 20px;
-    }
-
-    header .content h1 {
-      font-size: 18px;
-    }
-
-    header .content p {
-      font-size: 14px;
-    }
-
-    #about .about-content {
-      flex-direction: column;
-    }
-
-    #about .about-content a {
-      margin: 2rem 0;
-    }
-
-    #about img {
-      display: none;
-    }
-
-    #offers {
-      height: auto;
-      padding: 30px 10px;
-    }
-
-    #offers .offers-items {
-      flex-direction: column;
-    }
-
-    #menu .menu-items .menu-item {
-      margin: 20px 10px;
-    }
-
-    #daytime .daytime-items {
-      display: block;
-      height: auto;
-      padding: 30px 0;
-    }
-
-    #daytime .daytime-items .daytime-item {
-      margin-top: 20px;
-    }
-
-    #contact .contact-info,
-    form {
-      width: 80%;
-    }
-  }
-}
